@@ -11,8 +11,8 @@ export async function getServerSideProps(context: any) {
     // However you can use another database (e.g. myDatabase) by replacing the `await clientPromise` with the following code:
     //
     const client = await clientPromise
-    const db = client.db("todo")
-    const collection = db.collection("todos")
+    const db = client.db("test")
+    const collection = db.collection("complexBooks")
 
     const todos = await collection.find({}).toArray()
     //
@@ -48,14 +48,13 @@ export default function Home({
           <>
             <h2 className="text-green-600 pt-4">
               Connected to DB
-              {todos.toArray}
             </h2>
             <ul className="pt-8">
-              {todos.map((todo: any) => {
-                <li key={todo.id}>
+              {todos.map((todo: any) => (
+                <li key={todo._id}>
                   {todo.title}
                 </li>
-              })
+              ))
               }
             </ul>
           </>

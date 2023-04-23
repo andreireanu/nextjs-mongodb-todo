@@ -1,8 +1,10 @@
 import Head from 'next/head'
+import { useState } from 'react'
 import clientPromise from '../lib/mongodb'
 import { InferGetServerSidePropsType } from 'next'
 
 import "tailwindcss/tailwind.css"
+import NewTodoForm from '../components/NewTodoForm'
 
 export async function getServerSideProps(context: any) {
   try {
@@ -11,8 +13,8 @@ export async function getServerSideProps(context: any) {
     // However you can use another database (e.g. myDatabase) by replacing the `await clientPromise` with the following code:
     //
     const client = await clientPromise
-    const db = client.db("test")
-    const collection = db.collection("complexBooks")
+    const db = client.db("todo")
+    const collection = db.collection("todos")
 
     const todos = await collection.find({}).toArray()
     //
@@ -34,6 +36,8 @@ export default function Home({
   isConnected,
   todos
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const [allTodos, setAllTodos] = useState(todos || [])
+
   return (
     <div className="container">
       <Head>
@@ -49,8 +53,10 @@ export default function Home({
             <h2 className="text-green-600 pt-4">
               Connected to DB
             </h2>
+            <NewTodoForm setAllTodos={setAllTodos} /> 
             <ul className="pt-8">
-              {todos.map((todo: any) => (
+              {
+                allTodos.map((todo: any) => (
                 <li key={todo._id}>
                   {todo.title}
                 </li>

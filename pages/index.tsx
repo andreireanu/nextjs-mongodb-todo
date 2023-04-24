@@ -5,6 +5,7 @@ import { InferGetServerSidePropsType } from 'next'
 
 import "tailwindcss/tailwind.css"
 import NewTodoForm from '../components/NewTodoForm'
+import Todos from '../components/Todos'
 
 export async function getServerSideProps(context: any) {
   try {
@@ -54,15 +55,7 @@ export default function Home({
               Connected to DB
             </h2>
             <NewTodoForm setAllTodos={setAllTodos} /> 
-            <ul className="pt-8">
-              {
-                allTodos.map((todo: any) => (
-                <li key={todo._id}>
-                  {todo.title}
-                </li>
-              ))
-              }
-            </ul>
+            <Todos setAllTodos={setAllTodos} allTodos={allTodos} />
           </>
         ) : (
             <h2 className="text-red-600 pt-4">

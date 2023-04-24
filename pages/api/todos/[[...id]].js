@@ -29,5 +29,17 @@ export default async (req, res) => {
             }
             break;
 
+        case 'PATCH':
+            const { _id, completed } = JSON.parse(req.body);
+            result = await collection.updateOne({
+                _id: ObjectId(_id)
+            }, { $set: { completed: completed } });
+            if (result['acknowledged'] == true) {
+                res.status(200).json("");
+            } else {
+                res.status(500).json("");
+            }
+            break;
+
     }
 };

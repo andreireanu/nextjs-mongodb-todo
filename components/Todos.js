@@ -1,4 +1,5 @@
 import { completeTodo } from '../lib/crud'
+import { deleteTodo } from '../lib/crud'
 
 const Todos = ({ setAllTodos, allTodos }) => {
 
@@ -25,6 +26,7 @@ const Todos = ({ setAllTodos, allTodos }) => {
                             </button>
                             <button
                                 className="flex-no-shrink p-2 ml-2 border-2 rounded text-red-500 border-red-500 hover:text-white hover:bg-red-500"
+                                onClick={() => deleteTodo(todo, setAllTodos)}
                             >
                                 Delete
                             </button>

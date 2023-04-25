@@ -13,33 +13,47 @@ export default async (req, res) => {
 
     switch (method) {
         case 'POST':
-            const { newTodoTitle } = JSON.parse(req.body);
-            result = await collection.insertOne({
-                title: newTodoTitle,
-                completed: false,
-            });
-            if (result['acknowledged'] == true) {
-                res.status(200).json({
-                    _id: result['insertedId'],
+            {
+                const { newTodoTitle } = JSON.parse(req.body);
+                result = await collection.insertOne({
                     title: newTodoTitle,
                     completed: false,
                 });
-            } else {
-                res.status(500).json({ message: 'ERR!' });
+                if (result['acknowledged'] == true) {
+                    res.status(200).json({
+                        _id: result['insertedId'],
+                        title: newTodoTitle,
+                        completed: false,
+                    });
+                } else {
+                    res.status(500).json({ message: 'ERR!' });
+                }
+                break;
             }
-            break;
 
         case 'PATCH':
-            const { _id, completed } = JSON.parse(req.body);
-            result = await collection.updateOne({
-                _id: ObjectId(_id)
-            }, { $set: { completed: completed } });
-            if (result['acknowledged'] == true) {
-                res.status(200).json("");
-            } else {
-                res.status(500).json("");
+            {
+                const { _id, completed } = JSON.parse(req.body);
+                result = await collection.updateOne({
+                    _id: ObjectId(_id)
+                }, { $set: { completed: completed } });
+                if (result['acknowledged'] == true) {
+                    res.status(200).json("");
+                } else {
+                    res.status(500).json("");
+                }
+                break;
             }
-            break;
 
+        case 'DELETE':
+            {
+                result = await collection.deleteOne({ _id: ObjectId(id[0]) });
+                if (result['acknowledged'] == true) {
+                    res.status(200).json("");
+                } else {
+                    res.status(500).json("");
+                }
+                break;
+            }
     }
 };
